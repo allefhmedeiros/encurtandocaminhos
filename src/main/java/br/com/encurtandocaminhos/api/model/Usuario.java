@@ -13,6 +13,19 @@ public class Usuario {
     private String senha;
     private LocalDate dtCadastro;
 
+    // Construtor que exige o preenchimento de todos os campos, exceto o id
+    public Usuario(String nomeCompleto, String nomeSocial, LocalDate dtNascimento, String documento,
+                   String profissao, String email, String senha) {
+        this.nomeCompleto = nomeCompleto;
+        this.nomeSocial = nomeSocial;
+        this.dtNascimento = dtNascimento;
+        this.documento = documento;
+        this.profissao = profissao;
+        this.email = email;
+        this.senha = senha;
+        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+    }
+
     public Long getId() {
         return id;
     }
@@ -79,10 +92,6 @@ public class Usuario {
 
     public LocalDate getDtCadastro() {
         return dtCadastro;
-    }
-
-    public void setDtCadastro(LocalDate dtCadastro) {
-        this.dtCadastro = dtCadastro;
     }
 
     @Override
