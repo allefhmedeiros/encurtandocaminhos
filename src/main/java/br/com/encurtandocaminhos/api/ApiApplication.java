@@ -13,6 +13,6 @@ public class ApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Implementação da interface CommandLineRunner realizada com sucesso.");
+		System.out.println("Implementação da interface CommandLineRunner realizada.");
 	}
 }
