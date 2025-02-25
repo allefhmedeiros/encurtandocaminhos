@@ -1,7 +1,6 @@
 package br.com.encurtandocaminhos.api.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Usuario {
     private Long id;
