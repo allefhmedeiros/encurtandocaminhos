@@ -1,17 +1,18 @@
 package br.com.encurtandocaminhos.api.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Usuario {
     private Long id;
     private String nomeCompleto;
     private String nomeSocial;
-    private Date dtNascimento;
+    private LocalDate dtNascimento;
     private String documento;
     private String profissao;
     private String email;
     private String senha;
-    private Date dtCadastro;
+    private LocalDate dtCadastro;
 
     public Long getId() {
         return id;
@@ -37,11 +38,11 @@ public class Usuario {
         this.nomeSocial = nomeSocial;
     }
 
-    public Date getDtNascimento() {
+    public LocalDate getDtNascimento() {
         return dtNascimento;
     }
 
-    public void setDtNascimento(Date dtNascimento) {
+    public void setDtNascimento(LocalDate dtNascimento) {
         this.dtNascimento = dtNascimento;
     }
 
@@ -77,11 +78,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Date getDtCadastro() {
+    public LocalDate getDtCadastro() {
         return dtCadastro;
     }
 
-    public void setDtCadastro(Date dtCadastro) {
+    public void setDtCadastro(LocalDate dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
 
