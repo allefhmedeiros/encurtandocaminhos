@@ -6,6 +6,11 @@ public class Curtida {
     private Publicacao publicacao;
     private boolean curtida = false;
 
+    public Curtida(Usuario usuario, Publicacao publicacao) {
+        this.usuario = usuario;
+        this.publicacao = publicacao;
+    }
+
     public void alternarCurtida(){
         setCurtida(!getCurtida());
     }

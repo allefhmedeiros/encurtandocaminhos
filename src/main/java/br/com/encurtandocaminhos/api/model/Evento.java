@@ -17,6 +17,16 @@ public class Evento {
         this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
     }
 
+    public Evento(String titulo, LocalDate dtInicio, LocalDate dtFim, String resumo, Double valorEntrada, Usuario organizador) {
+        this.titulo = titulo;
+        this.dtInicio = dtInicio;
+        this.dtFim = dtFim;
+        this.resumo = resumo;
+        setValorEntrada(valorEntrada); // Usando o setter para validar o valor de entrada
+        this.organizador = organizador;
+        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+    }
+
     // Validação para garantir que a data de início não seja posterior à data de fim
     private void validarDatas() {
         if (dtInicio != null && dtFim != null && dtInicio.isAfter(dtFim)) {

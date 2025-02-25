@@ -15,14 +15,19 @@ public class Servico {
     // Expressão regular para validação de email
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
 
-    // Construtor que inicializa dtCadastro com a data atual
-    public Servico() {
+    // Construtor que inicializa todos os campos, exceto o id
+    public Servico(String titulo, String resumo, Double valor, String contato, String email, Usuario prestador) {
+        this.titulo = titulo;
+        this.resumo = resumo;
+        this.valor = valor;
+        this.contato = contato;
+        this.setEmail(email); // Usando o setter que valida o email
+        this.prestador = prestador;
         this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
     }
 
     // Método para validar o formato do email
     private boolean validarEmail(String email) {
-        // A regex valida um formato básico de email
         return email != null && email.matches(EMAIL_REGEX);
     }
 
