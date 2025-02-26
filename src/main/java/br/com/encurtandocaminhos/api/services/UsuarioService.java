@@ -6,6 +6,9 @@ import br.com.encurtandocaminhos.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
     @Autowired
@@ -22,8 +25,17 @@ public class UsuarioService {
         return usuario;
     }
 
-    public Usuario buscarUsuarioPorId(Long id){
-        return usuarioRepository.findById(id).orElse(null);
+    // Método para buscar um usuário por ID
+    public Usuario buscarUsuarioPorId(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
     }
 
+    public List<Usuario> buscarTodosUsuarios(){
+        return usuarioRepository.findAll();
+    }
+
+    public List<Usuario> getAllUsuarios() {
+        return usuarioRepository.findAll();
+    }
 }
