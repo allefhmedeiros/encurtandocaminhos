@@ -1,30 +1,45 @@
 package br.com.encurtandocaminhos.api.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "tbl_eventos")
 public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String titulo;
-    private LocalDate dtInicio;
-    private LocalDate dtFim;
+    @Column(nullable = false)
+    private LocalDateTime dtInicio;
+    @Column(nullable = false)
+    private LocalDateTime dtFim;
+    @Column(nullable = false)
     private String resumo;
+    @Column(nullable = false)
     private Double valorEntrada;
+    @ManyToOne
+    @JoinColumn(name = "organizador_id", nullable = false)
     private Usuario organizador;
-    private LocalDate dtCadastro;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dtCadastro;
 
     // Construtor que inicializa dtCadastro com a data atual
     public Evento() {
-        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+        this.dtCadastro = LocalDateTime.now(); // A data de cadastro é a data atual
     }
 
-    public Evento(String titulo, LocalDate dtInicio, LocalDate dtFim, String resumo, Double valorEntrada, Usuario organizador) {
+    public Evento(String titulo, LocalDateTime dtInicio, LocalDateTime dtFim, String resumo, Double valorEntrada, Usuario organizador) {
         this.titulo = titulo;
         this.dtInicio = dtInicio;
         this.dtFim = dtFim;
         this.resumo = resumo;
         setValorEntrada(valorEntrada); // Usando o setter para validar o valor de entrada
         this.organizador = organizador;
-        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+        this.dtCadastro = LocalDateTime.now(); // A data de cadastro é a data atual
     }
 
     // Validação para garantir que a data de início não seja posterior à data de fim
@@ -58,20 +73,20 @@ public class Evento {
         this.titulo = titulo;
     }
 
-    public LocalDate getDtInicio() {
+    public LocalDateTime getDtInicio() {
         return dtInicio;
     }
 
-    public void setDtInicio(LocalDate dtInicio) {
+    public void setDtInicio(LocalDateTime dtInicio) {
         this.dtInicio = dtInicio;
         validarDatas(); // Valida a relação entre as datas
     }
 
-    public LocalDate getDtFim() {
+    public LocalDateTime getDtFim() {
         return dtFim;
     }
 
-    public void setDtFim(LocalDate dtFim) {
+    public void setDtFim(LocalDateTime dtFim) {
         this.dtFim = dtFim;
         validarDatas(); // Valida a relação entre as datas
     }
@@ -96,7 +111,7 @@ public class Evento {
         this.organizador = organizador;
     }
 
-    public LocalDate getDtCadastro() {
+    public LocalDateTime getDtCadastro() {
         return dtCadastro;
     }
 
