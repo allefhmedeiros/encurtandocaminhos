@@ -1,30 +1,43 @@
 package br.com.encurtandocaminhos.api.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "tbl_publicacoes")
 public class Publicacao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate dtPublicada;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime dtPublicada;
+
+    @ManyToOne
+    @JoinColumn(name = "criador_id", nullable = false)
     private Usuario criador;
+
+    @Column(nullable = false)
     private String conteudo;
-    private Recurso recurso;
 
-    public Recurso getRecurso() {
-        return recurso;
+    @OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recurso> recursos = new ArrayList<>();
+
+    // Construtores
+    public Publicacao() {
+        this.dtPublicada = LocalDateTime.now();
     }
 
-
-    public void setRecurso(Recurso recurso) {
-        this.recurso = recurso;
-    }
-
-    public Publicacao(Usuario criador, String conteudo, Recurso recurso) {
-        this.dtPublicada = LocalDate.now(); // A data de cadastro é a data atual
+    public Publicacao(Usuario criador, String conteudo) {
+        this.dtPublicada = LocalDateTime.now();
         this.criador = criador;
         this.conteudo = conteudo;
-        this.recurso = recurso;
     }
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -33,11 +46,11 @@ public class Publicacao {
         this.id = id;
     }
 
-    public LocalDate getDtPublicada() {
+    public LocalDateTime getDtPublicada() {
         return dtPublicada;
     }
 
-    public void setDtPublicada(LocalDate dtPublicada) {
+    public void setDtPublicada(LocalDateTime dtPublicada) {
         this.dtPublicada = dtPublicada;
     }
 
@@ -57,6 +70,20 @@ public class Publicacao {
         this.conteudo = conteudo;
     }
 
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos.clear();
+        if (recursos != null) {
+            for (Recurso recurso : recursos) {
+                recurso.setPublicacao(this);
+            }
+            this.recursos.addAll(recursos);
+        }
+    }
+
     @Override
     public String toString() {
         return "Publicacao{" +
@@ -64,8 +91,7 @@ public class Publicacao {
                 ", dtPublicada=" + dtPublicada +
                 ", criador=" + criador +
                 ", conteudo='" + conteudo + '\'' +
-                ", recurso=" + recurso +
+                ", recursos=" + recursos +
                 '}';
     }
-
 }
