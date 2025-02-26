@@ -1,14 +1,20 @@
 package br.com.encurtandocaminhos.api;
 
 import br.com.encurtandocaminhos.api.model.*;
+import br.com.encurtandocaminhos.api.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
+
+	@Autowired
+	private UsuarioService usuarioService; //INJEÇÃO DE SERVIÇO --> REPOSITÓRIO --> MODELO
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
@@ -18,8 +24,22 @@ public class ApiApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("\n*** TESTE DE IMPLEMENTAÇÃO DA CAMADA DE MODELO DE NEGÓCIO ***\n");
 
-		Usuario novoUsuario = new Usuario("JESSUS ALLEFH DE MEDEIROS SILVA", "JESSUS SILVA", LocalDate.parse("1993-10-28"), "10326172416", "ENGENHEIRO DE SOFTWARE", "ALLEFHMEDEIROS@GMAIL.COM", "TESTE123");
+
+		Usuario novoUsuario = new Usuario("ALEX GOMES DA SILVA", "ALEX GOMES", LocalDate.parse("2000-12-29"), "10326172416", "ANALISTA DE DADOS", "ALEXGOMES@GMAIL.COM", "TESTE123");
 		System.out.println("OBJETO INSTANCIADO: USUÁRIO\n");
+		System.out.println(novoUsuario.toString());
+
+		Usuario usuarioSalvo = usuarioService.salvarUsuario(novoUsuario);
+		System.out.println("\nUSUÁRIO SALVO NO BANCO DE DADOS.\n");
+
+		// RECUPERANDO O USUÁRIO DO BANCO DE DADOS
+		Usuario usuarioRecuperado = usuarioService.buscarUsuarioPorId(usuarioSalvo.getId());
+		if (usuarioRecuperado != null) {
+			System.out.println("USUÁRIO RECUPERADO DO BANCO DE DADOS:\n");
+			System.out.println(usuarioRecuperado.toString());
+		} else {
+			System.out.println("USUÁRIO NÃO ENCONTRADO.");
+		}
 		System.out.println(novoUsuario.toString());
 
 //		Servico divulgarServico = new Servico("Presto serviço de programação","Engenheiro de software", 8000.0,"11933251636", "ALLEFHMEDEIROS@GMAIL.COM", novoUsuario);

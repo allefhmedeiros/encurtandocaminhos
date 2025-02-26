@@ -1,18 +1,42 @@
 package br.com.encurtandocaminhos.api.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tbl_usuarios")
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nomeCompleto;
+
+    @Column(nullable = false)
     private String nomeSocial;
+
+    @Column(nullable = false)
     private LocalDate dtNascimento;
+
+    @Column(nullable = false)
     private String documento;
+
+    @Column(nullable = false)
     private String profissao;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String senha;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime dtCadastro;
+
+    public Usuario() {
+    }
 
     // Construtor que exige o preenchimento de todos os campos, exceto o id
     public Usuario(String nomeCompleto, String nomeSocial, LocalDate dtNascimento, String documento,
@@ -24,7 +48,13 @@ public class Usuario {
         this.profissao = profissao;
         this.email = email;
         this.senha = senha;
-        this.dtCadastro = LocalDateTime.now(); // A data de cadastro é a data atual
+
+    }
+
+    @PrePersist
+    public void prePersist() {
+        // A data de cadastro é preenchida apenas uma vez, antes da persistência
+        this.dtCadastro = LocalDateTime.now();
     }
 
     public Long getId() {
