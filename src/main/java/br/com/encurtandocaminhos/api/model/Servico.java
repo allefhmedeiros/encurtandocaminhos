@@ -1,16 +1,32 @@
 package br.com.encurtandocaminhos.api.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+@Entity
+@Table(name="tbl_servicos")
 public class Servico {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String titulo;
+    @Column(nullable = false)
     private String resumo;
+    @Column(nullable = false)
     private Double valor;
+    @Column(nullable = false)
     private String contato;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false, updatable = false)
     private LocalDate dtCadastro;
+    @ManyToOne
+    @JoinColumn(name = "prestador_id", nullable = false)
     private Usuario prestador;
+
+    public Servico() {
+    }
 
     // Expressão regular para validação de email
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -94,6 +110,11 @@ public class Servico {
 
     public void setPrestador(Usuario prestador) {
         this.prestador = prestador;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.dtCadastro = LocalDate.now();
     }
 
     @Override
