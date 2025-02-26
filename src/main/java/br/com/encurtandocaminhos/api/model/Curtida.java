@@ -1,20 +1,33 @@
 package br.com.encurtandocaminhos.api.model;
 
-public class Curtida {
-    private Long id;
-    private Usuario usuario;
-    private Publicacao publicacao;
-    private boolean curtida = false;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "tbl_curtidas")
+public class Curtida {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Relacionamento muitos para um com Usuario e Publicacao
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)  // Definindo a chave estrangeira para Usuario
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publicacao_id", nullable = false)  // Definindo a chave estrangeira para Publicacao
+    private Publicacao publicacao;
+
+    // Construtor
     public Curtida(Usuario usuario, Publicacao publicacao) {
         this.usuario = usuario;
         this.publicacao = publicacao;
     }
 
-    public void alternarCurtida(){
-        setCurtida(!getCurtida());
+    public Curtida() {
     }
 
+    // Getters e setters
     public Long getId() {
         return id;
     }
@@ -39,13 +52,6 @@ public class Curtida {
         this.publicacao = publicacao;
     }
 
-    public boolean getCurtida() {
-        return curtida;
-    }
-
-    public void setCurtida(boolean curtida) {
-        this.curtida = curtida;
-    }
 
     @Override
     public String toString() {
@@ -53,7 +59,6 @@ public class Curtida {
                 "id=" + id +
                 ", usuario=" + usuario +
                 ", publicacao=" + publicacao +
-                ", curtida=" + curtida +
                 '}';
     }
 }
