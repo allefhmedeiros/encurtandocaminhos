@@ -1,6 +1,7 @@
 package br.com.encurtandocaminhos.api.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Usuario {
     private Long id;
@@ -11,7 +12,7 @@ public class Usuario {
     private String profissao;
     private String email;
     private String senha;
-    private LocalDate dtCadastro;
+    private LocalDateTime dtCadastro;
 
     // Construtor que exige o preenchimento de todos os campos, exceto o id
     public Usuario(String nomeCompleto, String nomeSocial, LocalDate dtNascimento, String documento,
@@ -23,7 +24,7 @@ public class Usuario {
         this.profissao = profissao;
         this.email = email;
         this.senha = senha;
-        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+        this.dtCadastro = LocalDateTime.now(); // A data de cadastro é a data atual
     }
 
     public Long getId() {
@@ -90,7 +91,7 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public LocalDate getDtCadastro() {
+    public LocalDateTime getDtCadastro() {
         return dtCadastro;
     }
 
