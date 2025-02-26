@@ -1,10 +1,10 @@
 package br.com.encurtandocaminhos.api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "tbl_publicacoes")
 public class Publicacao {
@@ -24,6 +24,7 @@ public class Publicacao {
     private String conteudo;
 
     @OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference  // Adicionando aqui
     private List<Recurso> recursos = new ArrayList<>();
 
     // Construtores

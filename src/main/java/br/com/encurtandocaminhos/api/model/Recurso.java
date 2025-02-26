@@ -1,7 +1,7 @@
 package br.com.encurtandocaminhos.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "tbl_recursos")
 public class Recurso {
@@ -15,6 +15,7 @@ public class Recurso {
 
     @ManyToOne
     @JoinColumn(name = "publicacao_id", nullable = false)
+    @JsonBackReference  // Adicionando aqui
     private Publicacao publicacao;
 
     // Construtores
