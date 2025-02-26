@@ -31,11 +31,11 @@ public class UsuarioService {
         return usuario.orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
     }
 
-    public List<Usuario> buscarTodosUsuarios(){
+    public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    public List<Usuario> getAllUsuarios() {
-        return usuarioRepository.findAll();
+    public void deleteUsuario(Long id) {
+        usuarioRepository.deleteById(id);
     }
 }
