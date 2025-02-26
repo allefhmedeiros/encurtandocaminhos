@@ -2,7 +2,8 @@ package br.com.encurtandocaminhos.api.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="tbl_servicos")
 public class Servico {
@@ -20,8 +21,8 @@ public class Servico {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false, updatable = false)
-    private LocalDate dtCadastro;
-    @ManyToOne
+    private LocalDateTime dtCadastro;
+    @ManyToOne(fetch = FetchType.EAGER)     // ISSO FORÇA O CARREGAMENTO DOS DADOS DO PRESTADOR DO SERVIÇO
     @JoinColumn(name = "prestador_id", nullable = false)
     private Usuario prestador;
 
@@ -39,7 +40,7 @@ public class Servico {
         this.contato = contato;
         this.setEmail(email); // Usando o setter que valida o email
         this.prestador = prestador;
-        this.dtCadastro = LocalDate.now(); // A data de cadastro é a data atual
+        this.dtCadastro = LocalDateTime.now(); // A data de cadastro é a data atual
     }
 
     // Método para validar o formato do email
@@ -96,11 +97,11 @@ public class Servico {
         this.contato = contato;
     }
 
-    public LocalDate getDtCadastro() {
+    public LocalDateTime getDtCadastro() {
         return dtCadastro;
     }
 
-    public void setDtCadastro(LocalDate dtCadastro) {
+    public void setDtCadastro(LocalDateTime dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
 
@@ -114,7 +115,7 @@ public class Servico {
 
     @PrePersist
     public void prePersist() {
-        this.dtCadastro = LocalDate.now();
+        this.dtCadastro = LocalDateTime.now();
     }
 
     @Override
