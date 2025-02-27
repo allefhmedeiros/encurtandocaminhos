@@ -1,5 +1,6 @@
 package br.com.encurtandocaminhos.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,10 +26,10 @@ public class Usuario {
 
     @Column(nullable = false)
     private String profissao;
-
+    @JsonIgnore
     @Column(unique = true, nullable = false)
     private String email;
-
+    @JsonIgnore
     @Column(nullable = false)
     private String senha;
 
@@ -45,12 +46,12 @@ public class Usuario {
     // Construtor que exige o preenchimento de todos os campos, exceto o id
     public Usuario(String nomeCompleto, String nomeSocial, LocalDate dtNascimento, String documento,
                    String profissao, String email, String senha) {
-        this.nomeCompleto = nomeCompleto;
-        this.nomeSocial = nomeSocial;
+        this.nomeCompleto = nomeCompleto.toUpperCase();
+        this.nomeSocial = nomeSocial.toUpperCase();
         this.dtNascimento = dtNascimento;
         this.documento = documento;
-        this.profissao = profissao;
-        this.email = email;
+        this.profissao = profissao.toUpperCase();
+        this.email = email.toUpperCase();
         this.senha = senha;
 
     }
@@ -133,12 +134,12 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nomeCompleto='" + nomeCompleto + '\'' +
-                ", nomeSocial='" + nomeSocial + '\'' +
+                ", nomeCompleto='" + nomeCompleto.toUpperCase() + '\'' +
+                ", nomeSocial='" + nomeSocial.toUpperCase() + '\'' +
                 ", dtNascimento=" + dtNascimento +
                 ", documento='" + documento + '\'' +
-                ", profissao='" + profissao + '\'' +
-                ", email='" + email + '\'' +
+                ", profissao='" + profissao.toUpperCase() + '\'' +
+                ", email='" + email.toUpperCase() + '\'' +
                 ", senha='" + senha + '\'' +
                 ", dtCadastro=" + dtCadastro +
                 '}';
