@@ -35,8 +35,12 @@ public class Usuario {
     @Column(nullable = false, updatable = false)
     private LocalDateTime dtCadastro;
 
+    public Usuario(Long id) {
+    }
+
     public Usuario() {
     }
+
 
     // Construtor que exige o preenchimento de todos os campos, exceto o id
     public Usuario(String nomeCompleto, String nomeSocial, LocalDate dtNascimento, String documento,

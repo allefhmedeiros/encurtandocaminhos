@@ -1,7 +1,5 @@
 package br.com.encurtandocaminhos.api.controller;
 
-import br.com.encurtandocaminhos.api.dto.UsuarioCadastroDTO;
-import br.com.encurtandocaminhos.api.dto.UsuarioDTO;
 import br.com.encurtandocaminhos.api.model.Usuario;
 import br.com.encurtandocaminhos.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +12,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id){
-        return ResponseEntity.ok(usuarioService.buscarUsuarioPorId(id));
+    // Buscar usuário por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    // Buscar todos os usuários
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> getUsuarios(){
-        return ResponseEntity.ok(usuarioService.getAllUsuarios());
+    public ResponseEntity<List<Usuario>> getUsuarios() {
+        List<Usuario> usuarios = usuarioService.getAllUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
 
-    @DeleteMapping("{id}")
+    // Deletar um usuário por ID
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUsuario(@PathVariable Long id){
+    public void deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
     }
 
+    // Adicionar um novo usuário
     @PostMapping
-    public ResponseEntity<UsuarioCadastroDTO> adicionarUsuario(@RequestBody Usuario usuario){
-        UsuarioCadastroDTO usuarioSalvo = usuarioService.salvarUsuario(usuario);
+    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody Usuario usuario) {
+        Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
         return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED);
     }
 }
