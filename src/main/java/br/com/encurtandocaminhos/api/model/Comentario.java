@@ -1,21 +1,52 @@
 package br.com.encurtandocaminhos.api.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "tbl_comentarios")
 public class Comentario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String conteudo;
-    private LocalDate dtCadastro;
+
+    @Column(nullable = false)
+    private LocalDateTime dtCadastro;
+
+    // Relacionamento Muitos para Um com Publicacao
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "publicacao_id", nullable = false)
     private Publicacao publicacao;
+
+    // Relacionamento Muitos para Um com Usuario
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "comentado_por_id", nullable = false)
     private Usuario comentadoPor;
 
+    // Construtor
     public Comentario(String conteudo, Publicacao publicacao, Usuario comentadoPor) {
         this.conteudo = conteudo;
-        this.dtCadastro = LocalDate.now();
         this.publicacao = publicacao;
         this.comentadoPor = comentadoPor;
     }
 
+    // Construtor vazio
+    public Comentario() {
+    }
+
+    // Método que será chamado antes de persistir a entidade
+    @PrePersist
+    public void prePersist() {
+        if (dtCadastro == null) {
+            this.dtCadastro = LocalDateTime.now();
+        }
+    }
+
+    // Getters e setters
     public Long getId() {
         return id;
     }
@@ -32,11 +63,11 @@ public class Comentario {
         this.conteudo = conteudo;
     }
 
-    public LocalDate getDtCadastro() {
+    public LocalDateTime getDtCadastro() {
         return dtCadastro;
     }
 
-    public void setDtCadastro(LocalDate dtCadastro) {
+    public void setDtCadastro(LocalDateTime dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
 

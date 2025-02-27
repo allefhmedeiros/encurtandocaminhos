@@ -1,5 +1,6 @@
 package br.com.encurtandocaminhos.api.controller;
 
+import br.com.encurtandocaminhos.api.dto.UsuarioDTO;
 import br.com.encurtandocaminhos.api.model.Usuario;
 import br.com.encurtandocaminhos.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +16,25 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    //ENDPOINT PARA BUSCAR UM USUÁRIO PELO ID
     @GetMapping("{id}")
-    public Usuario getUsuarioById(@PathVariable Long id){
-        return usuarioService.buscarUsuarioPorId(id);
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id){
+        return ResponseEntity.ok(usuarioService.buscarUsuarioPorId(id));
     }
 
     @GetMapping
-    public List<Usuario> getUsuarios(){
-        return usuarioService.getAllUsuarios();
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios(){
+        return ResponseEntity.ok(usuarioService.getAllUsuarios());
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUsuario(@PathVariable Long id){
         usuarioService.deleteUsuario(id);
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> adicionarUsuario(@RequestBody Usuario usuario){
-        Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
-        return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED); //RETORNARÁ 201 COM O USUÁRIO SALVO
+    public ResponseEntity<UsuarioDTO> adicionarUsuario(@RequestBody Usuario usuario){
+        UsuarioDTO usuarioSalvo = usuarioService.salvarUsuario(usuario);
+        return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED);
     }
-
 }
