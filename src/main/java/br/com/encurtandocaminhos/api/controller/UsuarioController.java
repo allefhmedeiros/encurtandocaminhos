@@ -1,5 +1,6 @@
 package br.com.encurtandocaminhos.api.controller;
 
+import br.com.encurtandocaminhos.api.dto.UsuarioCadastroDTO;
 import br.com.encurtandocaminhos.api.dto.UsuarioDTO;
 import br.com.encurtandocaminhos.api.model.Usuario;
 import br.com.encurtandocaminhos.api.services.UsuarioService;
@@ -33,8 +34,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> adicionarUsuario(@RequestBody Usuario usuario){
-        UsuarioDTO usuarioSalvo = usuarioService.salvarUsuario(usuario);
+    public ResponseEntity<UsuarioCadastroDTO> adicionarUsuario(@RequestBody Usuario usuario){
+        UsuarioCadastroDTO usuarioSalvo = usuarioService.salvarUsuario(usuario);
         return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.encurtandocaminhos.api.services;
 
+import br.com.encurtandocaminhos.api.dto.UsuarioCadastroDTO;
 import br.com.encurtandocaminhos.api.dto.UsuarioDTO;
 import br.com.encurtandocaminhos.api.exception.EmailJaExisteException;
 import br.com.encurtandocaminhos.api.model.Usuario;
@@ -15,12 +16,12 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioDTO salvarUsuario(Usuario usuario) {
+    public UsuarioCadastroDTO salvarUsuario(Usuario usuario) {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new EmailJaExisteException("Este e-mail já está em uso.");
         }
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
-        return UsuarioDTO.fromEntity(usuarioSalvo);
+        return UsuarioCadastroDTO.fromEntity(usuarioSalvo);
     }
 
     public UsuarioDTO buscarUsuarioPorId(Long id) {
