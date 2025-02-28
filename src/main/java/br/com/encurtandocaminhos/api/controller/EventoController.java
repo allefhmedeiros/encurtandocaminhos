@@ -4,6 +4,7 @@ import br.com.encurtandocaminhos.api.model.Evento;
 import br.com.encurtandocaminhos.api.model.Usuario;
 import br.com.encurtandocaminhos.api.repository.EventoRepository;
 import br.com.encurtandocaminhos.api.repository.UsuarioRepository;
+import br.com.encurtandocaminhos.api.services.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class EventoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private EventoService eventoService;
 
     // Endpoint para criar um novo evento
     @PostMapping
@@ -94,4 +97,16 @@ public class EventoController {
         eventoRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    // Endpoint para buscar eventos por organizador
+    @GetMapping("/organizador/{organizadorId}")
+    public ResponseEntity<List<Evento>> buscarEventosPorOrganizador(@PathVariable Long organizadorId) {
+        try {
+            List<Evento> eventos = eventoService.buscarEventosPorOrganizador(organizadorId);
+            return ResponseEntity.ok(eventos);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Retorna 404 se o organizador não for encontrado
+        }
+    }
+
 }

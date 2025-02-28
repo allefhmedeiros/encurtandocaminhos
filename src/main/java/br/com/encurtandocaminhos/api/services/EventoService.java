@@ -1,7 +1,9 @@
 package br.com.encurtandocaminhos.api.services;
 
 import br.com.encurtandocaminhos.api.model.Evento;
+import br.com.encurtandocaminhos.api.model.Usuario;
 import br.com.encurtandocaminhos.api.repository.EventoRepository;
+import br.com.encurtandocaminhos.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
 public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     //MÉTODO RESPONSÁVEL POR SALVAR NOVO EVENTO
     public Evento salvarEvento(Evento evento){
@@ -38,9 +42,19 @@ public class EventoService {
             evento.setDtFim(eventoAtualizado.getDtFim());
             evento.setResumo(eventoAtualizado.getResumo());
             evento.setValorEntrada(eventoAtualizado.getValorEntrada());
-            return eventoRepository.save(evento);
+            return eventoRepository.save(eventoAtualizado);
         }else{
             throw new IllegalArgumentException("Evento não encontrado para o ID = " + id + " fornecido");
+        }
+    }
+
+    // Método responsável por buscar eventos por organizador
+    public List<Evento> buscarEventosPorOrganizador(Long organizadorId) {
+        Optional<Usuario> usuario = usuarioRepository.findById(organizadorId);
+        if (usuario.isPresent()) {
+            return eventoRepository.findByOrganizador(usuario.get());
+        } else {
+            throw new IllegalArgumentException("Organizador não encontrado para o ID = " + organizadorId);
         }
     }
 
