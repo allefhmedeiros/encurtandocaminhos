@@ -39,4 +39,13 @@ public class UsuarioService {
         // Deleta o usuário com o ID fornecido
         usuarioRepository.deleteById(id);
     }
+
+    public boolean validarLogin(String email, String senha) {
+        // Usando o Optional corretamente
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+
+        // Verifica se o usuário está presente e a senha corresponde
+        return usuario.isPresent() && usuario.get().getSenha().equals(senha);
+    }
+
 }

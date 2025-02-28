@@ -46,4 +46,11 @@ public class UsuarioController {
         Usuario usuarioSalvo = usuarioService.salvarUsuario(usuario);
         return new ResponseEntity<>(usuarioSalvo, HttpStatus.CREATED);
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String senha) {
+        boolean loginValido = usuarioService.validarLogin(email, senha);
+        return ResponseEntity.ok(loginValido);
+    }
+
 }
