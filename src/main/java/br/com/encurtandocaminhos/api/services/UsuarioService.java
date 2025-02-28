@@ -48,4 +48,10 @@ public class UsuarioService {
         return usuario.isPresent() && usuario.get().getSenha().equals(senha);
     }
 
+    // Buscar usuário por e-mail
+    public Usuario buscarUsuarioPorEmail(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        return usuario.orElse(null);
+    }
+
 }

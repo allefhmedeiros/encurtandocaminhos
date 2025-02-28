@@ -53,4 +53,13 @@ public class UsuarioController {
         return ResponseEntity.ok(loginValido);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Usuario> getUsuarioByEmail(@RequestParam String email) {
+        Usuario usuario = usuarioService.buscarUsuarioPorEmail(email);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
 }
