@@ -61,4 +61,11 @@ public class ServicoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/fornecedor/{id}")
+    public ResponseEntity<List<Servico>> listarServicosPorFornecedor(@PathVariable Long id) {
+        List<Servico> servicos = servicoService.buscarPorFornecedor(id);
+        return ResponseEntity.ok(servicos);
+    }
+
 }

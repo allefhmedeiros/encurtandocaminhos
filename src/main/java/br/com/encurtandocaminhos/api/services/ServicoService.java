@@ -51,4 +51,8 @@ public class ServicoService {
             return null; // Retorna null caso o serviço não seja encontrado
         }
     }
+
+    public List<Servico> buscarPorFornecedor(Long prestadorId) {
+        return servicoRepository.findByPrestadorId(prestadorId);
+    }
 }
